@@ -34,8 +34,9 @@ namespace RestaurantBill
         {
             order.item = custOrder.Split('$')[0];
             order.price = Convert.ToDouble(custOrder.Split('$')[1]);
-            listBox1.Items.Add("Price: " + order.price);
+            //listBox1.Items.Add("Price: " + order.price);
             finalBill += "Ordered Item: " + order.item + "\nPrice: " + order.price.ToString("C2") + "\n";
+            updateBill();
         }
 
         private void updateBill()
@@ -45,7 +46,7 @@ namespace RestaurantBill
             totalTaxes += order.price * TAX;
 
             listBox1.Items.Clear();
-            listBox1.Items.Add(finalBill);
+            listBox1.Items.AddRange(finalBill.Split('\n'));
             listBox1.Items.Add("Subtotal: " + subTotal.ToString("C2"));
             listBox1.Items.Add("Tax: " + totalTaxes.ToString("C2"));
             listBox1.Items.Add("Total: " + total.ToString("C2"));
@@ -55,7 +56,31 @@ namespace RestaurantBill
         {
             if (sender == cmbDrinks)
                 getValues(cmbDrinks.SelectedItem.ToString());
+            else if (sender == cmbMeals)
+                getValues(cmbMeals.SelectedItem.ToString());
+            else if (sender == cmbAppetizers)
+                getValues(cmbAppetizers.SelectedItem.ToString());
+            else
+                getValues(cmbDesserts.SelectedItem.ToString());
             //test
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            subTotal = 0;     
+            totalTaxes = 0;
+            total = 0;
+            finalBill = "FINAl BILL: \n";
+            listBox1.Items.Clear();
+            cmbDesserts.Text = "Desserts";
+            cmbAppetizers.Text = "Appetizers";
+            cmbDrinks.Text = "Beverages";
+            cmbMeals.Text = "Main Meals";
         }
     }
 }
